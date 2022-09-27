@@ -10,7 +10,7 @@ class User {
 	@Column()
 	name: string;
 
-	@Column({ unique: true })
+	@Column({ unique: true, type: "decimal" })
 	cpf: number;
 
 	@Column()

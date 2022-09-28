@@ -12,7 +12,7 @@ class Transaction {
 	@Column()
 	targetUserId: string;
 
-	@ManyToOne(() => User, { eager: true })
+	@ManyToOne(() => User, { eager: false })
 	user: User;
 }
 

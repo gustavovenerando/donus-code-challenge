@@ -19,19 +19,19 @@ const createTransferService = async ({
 		throw new AppError(400, "Target user doesnt exists.");
 	}
 
-	transactionRepository.create({
+	const transaction = transactionRepository.create({
 		amount,
 		targetUserId,
 		user: currUser!,
 	});
 
+	await transactionRepository.save(transaction);
+
 	currUser!.balance -= amount;
 	await userRepository.update(currUser!.id, currUser!);
-	console.log(currUser);
 
 	targetUser.balance += amount;
 	await userRepository.update(targetUser.id, targetUser);
-	console.log(targetUser);
 };
 
 export default createTransferService;

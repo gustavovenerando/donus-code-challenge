@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { IAmount } from "../interfaces/transfer";
-import createTransferService from "../services/transfer/createTransfer.router";
+import createTransferService from "../services/transfer/createTransfer.service";
 
 export const createTransferController = async (req: Request, res: Response) => {
 	const targetUserId: string = req.params.id;

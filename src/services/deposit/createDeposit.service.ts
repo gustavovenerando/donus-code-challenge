@@ -13,10 +13,6 @@ const createDepositService = async ({
 
 	const user = await userRepository.findOneBy({ id: currUserId });
 
-	if (amount > 2000) {
-		throw new AppError(400, "Cannot deposit amount greater than R$ 2000.");
-	}
-
 	user!.balance += amount;
 	await userRepository.update(user!.id, user!);
 

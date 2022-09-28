@@ -22,12 +22,21 @@ const createTransferService = async ({
 	const transaction = transactionRepository.create({
 		amount,
 		targetUserId,
+		type: "Transfer",
 		user: currUser!,
 	});
 
 	await transactionRepository.save(transaction);
 
 	currUser!.balance -= amount;
+
+	if (currUser!.balance < 0) {
+		throw new AppError(
+			400,
+			"You dont have enough balance to make this transaction. Please, make a deposit to your account."
+		);
+	}
+
 	await userRepository.update(currUser!.id, currUser!);
 
 	targetUser.balance += amount;

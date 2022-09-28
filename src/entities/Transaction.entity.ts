@@ -9,8 +9,11 @@ class Transaction {
 	@Column({ type: "decimal", precision: 12, scale: 2 })
 	amount: number;
 
+	@Column({ nullable: true })
+	targetUserId?: string;
+
 	@Column()
-	targetUserId: string;
+	type: string;
 
 	@ManyToOne(() => User, { eager: false })
 	user: User;

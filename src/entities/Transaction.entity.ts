@@ -10,9 +10,6 @@ class Transaction {
 	amount: number;
 
 	@Column()
-	type: string;
-
-	@Column()
 	targetUserId: string;
 
 	@ManyToOne(() => User, { eager: true })

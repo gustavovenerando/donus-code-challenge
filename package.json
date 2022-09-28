@@ -12,6 +12,7 @@
 		"@types/bcryptjs": "^2.4.2",
 		"@types/jsonwebtoken": "^8.5.9",
 		"@types/node": "^18.7.23",
+		"@types/pg": "^8.6.5",
 		"@types/uuid": "^8.3.4",
 		"bcryptjs": "^2.4.3",
 		"class-transformer": "^0.5.1",

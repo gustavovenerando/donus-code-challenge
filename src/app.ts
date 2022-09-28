@@ -6,11 +6,12 @@ import handleErrorMiddleware from "./middlewares/handleError.middleware";
 import sessionRouter from "./routers/session.router";
 import validationAuthMiddleware from "./middlewares/validationAuth.middleware";
 import transferRouter from "./routers/transfer.router";
-// import { types } from "pg";
+import { types } from "pg";
 
-// types.setTypeParser(types.builtins.NUMERIC, (value: string): number =>
-// 	parseFloat(value)
-// );
+//TypeORM converte números para string ao fazer request. Solucao abaixo, ao invés de converter todo o tempo
+types.setTypeParser(types.builtins.NUMERIC, (value: string): number =>
+	parseFloat(value)
+);
 
 const app = express();
 app.use(express.json());

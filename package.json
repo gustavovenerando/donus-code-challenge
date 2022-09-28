@@ -9,6 +9,8 @@
 		"test": "cross-env NODE_ENV=test SECRET_KEY=Aloha jest"
 	},
 	"dependencies": {
+		"@types/bcryptjs": "^2.4.2",
+		"@types/jsonwebtoken": "^8.5.9",
 		"@types/node": "^18.7.23",
 		"@types/uuid": "^8.3.4",
 		"bcryptjs": "^2.4.3",

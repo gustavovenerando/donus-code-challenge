@@ -8,5 +8,5 @@ export const createDepositController = async (req: Request, res: Response) => {
 
 	await createDepositService({ amount, currUserId });
 
-	res.status(200).send({ message: "Deposit done sucessfully." });
+	res.status(201).send({ message: "Deposit done sucessfully." });
 };

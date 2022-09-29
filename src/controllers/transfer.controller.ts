@@ -10,6 +10,6 @@ export const createTransferController = async (req: Request, res: Response) => {
 	await createTransferService({ targetUserId, currUserId, amount });
 
 	return res
-		.status(200)
+		.status(201)
 		.send({ message: "Transfer between accounts done sucessfully." });
 };

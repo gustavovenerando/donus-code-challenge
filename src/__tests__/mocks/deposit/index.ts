@@ -17,6 +17,10 @@ export const amount0: IAmount = {
 	amount: 0,
 };
 
+export const amount100: IAmount = {
+	amount: 100,
+};
+
 export const amountAsString: IDepositAsString = {
 	amount: "Aloha",
 };

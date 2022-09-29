@@ -12,6 +12,18 @@ export const mockedUser: IUserRequest = {
 	password: "Aloha123456",
 };
 
+export const mockedUserWithBalance: IUserRequest = {
+	name: "Alessandra",
+	cpf: 45833685444,
+	password: "Aloha123456",
+};
+
+export const mockedUserWithoutBalance: IUserRequest = {
+	name: "Felipe",
+	cpf: 45833685333,
+	password: "Aloha123456",
+};
+
 export const mockedUserWithoutName: IUserWithoutProperty = {
 	cpf: 45833685791,
 	password: "Aloha123456",

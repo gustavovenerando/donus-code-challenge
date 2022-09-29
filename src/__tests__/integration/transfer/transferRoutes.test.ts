@@ -15,6 +15,8 @@ import {
 } from "../../mocks/session";
 import {
 	mockedTargetIdNotUuidFormat,
+	mockedUserWithBalanceCpf,
+	mockedUserWithoutBalanceCpf,
 	mockedWrongTargetId,
 } from "../../mocks/transfer";
 import {
@@ -22,9 +24,6 @@ import {
 	mockedUserWithBalance,
 	mockedUserWithoutBalance,
 } from "../../mocks/users";
-
-const mockedUserWithBalanceCpf = 45833685444;
-const mockedUserWithoutBalanceCpf = 45833685333;
 
 describe("/transfer", () => {
 	let connection: DataSource;
@@ -65,8 +64,6 @@ describe("/transfer", () => {
 			(user: IUserRequest) => user.cpf === mockedUserWithoutBalanceCpf
 		);
 
-		console.log(mockedUserWithoutBalance.id);
-
 		const response = await request(app)
 			.post(`/transfer/${mockedUserWithoutBalance.id}`)
 			.set("Authorization", `Bearer ${loginResponse.body.token}`)
@@ -77,6 +74,29 @@ describe("/transfer", () => {
 			"Transfer between accounts done sucessfully."
 		);
 		expect(response.status).toBe(201);
+	});
+
+	test("POST /deposit - Should not be able to transfer without authentication", async () => {
+		const loginResponse = await request(app)
+			.post("/login")
+			.send(mockedUserLoginWithBalance);
+
+		const usersResponse = await request(app)
+			.get("/users")
+			.set("Authorization", `Bearer ${loginResponse.body.token}`);
+		const users = usersResponse.body;
+
+		const mockedUserWithoutBalance = users.find(
+			(user: IUserRequest) => user.cpf === mockedUserWithoutBalanceCpf
+		);
+
+		const response = await request(app)
+			.post(`/transfer/${mockedUserWithoutBalance.id}`)
+			.send(amount1000);
+
+		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual("Invalid token.");
+		expect(response.status).toBe(401);
 	});
 
 	test("POST /transfer - Should not be able to transfer amount between accounts, when balance turn negative", async () => {
@@ -174,7 +194,7 @@ describe("/transfer", () => {
 		expect(response.status).toBe(400);
 	});
 
-	test("POST /transfer - Should not be able to transfer amount between accounts, when target user dooes not exists", async () => {
+	test("POST /transfer - Should not be able to transfer amount between accounts, when target user does not exists", async () => {
 		const loginResponse = await request(app)
 			.post("/login")
 			.send(mockedUserLoginWithBalance);

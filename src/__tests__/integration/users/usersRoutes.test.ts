@@ -151,7 +151,7 @@ describe("/users", () => {
 		expect(response.status).toBe(200);
 	});
 
-	test("GET /users - should not be able to list users without authentication", async () => {
+	test("GET /users - Should not be able to list users without authentication", async () => {
 		const response = await request(app).get("/users");
 
 		expect(response.body).toHaveProperty("message");

@@ -46,6 +46,14 @@ describe("/deposit", () => {
 		expect(response.status).toBe(201);
 	});
 
+	test("POST /deposit - Should not be able to deposit without authentication", async () => {
+		const response = await request(app).post("/deposit").send(amount1000);
+
+		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual("Invalid token.");
+		expect(response.status).toBe(401);
+	});
+
 	test("POST /deposit - Should not be able to deposit a negative amount value", async () => {
 		const loginResponse = await request(app)
 			.post("/login")

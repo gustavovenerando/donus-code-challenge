@@ -28,12 +28,8 @@ app.use(handleErrorMiddleware);
 
 export default app;
 
-//quarta
-//transfer route(patch)
-//deposit route(patch)
-//yup, validaçao de dados
-//testes
-
 //quinta
+//completar testes(message to equal)
+//fazer testes transactions
 //read.me
 //docker

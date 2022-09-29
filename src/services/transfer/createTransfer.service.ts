@@ -3,7 +3,7 @@ import Transaction from "../../entities/Transaction.entity";
 import User from "../../entities/User.entity";
 import AppError from "../../errors/AppError";
 import { ITransferService } from "../../interfaces/transfer";
-import { isUUID } from "../../utils/uuidValidation";
+import { isUUID } from "../../utils/uuidValidation.utils";
 
 const createTransferService = async ({
 	targetUserId,

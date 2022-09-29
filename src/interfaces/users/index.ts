@@ -4,6 +4,12 @@ export interface IUserRequest {
 	password: string;
 }
 
+export interface IUserSchema {
+	name: string;
+	cpf: string;
+	password: string;
+}
+
 export interface IUserWithoutProperty {
 	name?: string;
 	cpf?: number;

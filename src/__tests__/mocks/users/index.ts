@@ -25,7 +25,7 @@ export const mockedUserWithoutBalance: IUserRequest = {
 };
 
 export const mockedUserWithoutName: IUserWithoutProperty = {
-	cpf: 45833685791,
+	cpf: 45833685796,
 	password: "Aloha123456",
 };
 
@@ -36,7 +36,7 @@ export const mockedUserWithoutCpf: IUserWithoutProperty = {
 
 export const mockedUserWithoutPassword: IUserWithoutProperty = {
 	name: "Leandro",
-	cpf: 45833685791,
+	cpf: 45833685796,
 };
 
 export const mockedUserCpfMoreThanElevenDigits: IUserRequest = {
@@ -53,24 +53,24 @@ export const mockedUserCpfLessThanElevenDigits: IUserRequest = {
 
 export const mockedUserWrongPasswordRequirements: IUserRequest = {
 	name: "Leandro",
-	cpf: 45833685791,
-	password: "Aloha123456",
+	cpf: 45833685792,
+	password: "Al0",
 };
 
-export const mockedUserNameAsNumber: IUserWrongNameType = {
+export const mockedUserNameWithNumber: IUserWrongNameType = {
 	name: 1254,
-	cpf: 45833685791,
+	cpf: 45833685793,
 	password: "Aloha123456",
 };
 
-export const mockedUserCpfAsString: IUserWrongCpfType = {
+export const mockedUserCpfWithChar: IUserWrongCpfType = {
 	name: "Leandro",
-	cpf: "45833685791",
+	cpf: "4583368579C",
 	password: "Aloha123456",
 };
 
 export const mockedUserPasswordAsNumber: IUserWrongPasswordType = {
 	name: "Leandro",
-	cpf: 45833685791,
+	cpf: 45833685794,
 	password: 654231,
 };

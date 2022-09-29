@@ -42,6 +42,7 @@ describe("/deposit", () => {
 			.send(amount1000);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual("Deposit done sucessfully.");
 		expect(response.status).toBe(201);
 	});
 
@@ -56,6 +57,9 @@ describe("/deposit", () => {
 			.send(negativeAmount);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual(
+			"Amount value must be greater than 0 and less than or equal to 2000."
+		);
 		expect(response.status).toBe(400);
 	});
 
@@ -70,6 +74,9 @@ describe("/deposit", () => {
 			.send(amount5000);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual(
+			"Amount value must be greater than 0 and less than or equal to 2000."
+		);
 		expect(response.status).toBe(400);
 	});
 
@@ -84,6 +91,9 @@ describe("/deposit", () => {
 			.send(amount0);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual(
+			"Amount value must be greater than 0 and less than or equal to 2000."
+		);
 		expect(response.status).toBe(400);
 	});
 
@@ -98,6 +108,9 @@ describe("/deposit", () => {
 			.send(amountAsString);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual(
+			'amount must be a `number` type, but the final value was: `NaN` (cast from the value `"Aloha"`).'
+		);
 		expect(response.status).toBe(400);
 	});
 });

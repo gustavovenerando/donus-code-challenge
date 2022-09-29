@@ -5,11 +5,10 @@ import AppDataSource from "../../../data-source";
 import { mockedUserLogin } from "../../mocks/session";
 import {
 	mockedUser,
-	mockedUserCpfAsString,
 	mockedUserCpfLessThanElevenDigits,
 	mockedUserCpfMoreThanElevenDigits,
-	mockedUserNameAsNumber,
-	mockedUserPasswordAsNumber,
+	mockedUserCpfWithChar,
+	mockedUserNameWithNumber,
 	mockedUserWithoutCpf,
 	mockedUserWithoutName,
 	mockedUserWithoutPassword,
@@ -47,7 +46,8 @@ describe("/users", () => {
 		const response = await request(app).post("/users").send(mockedUser);
 
 		expect(response.body).toHaveProperty("message");
-		expect(response.status).toBe(400);
+		expect(response.body.message).toEqual("User already exists.");
+		expect(response.status).toBe(409);
 	});
 
 	test("POST /users - Should not be able to create a user without name", async () => {
@@ -56,6 +56,7 @@ describe("/users", () => {
 			.send(mockedUserWithoutName);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual("name is a required field");
 		expect(response.status).toBe(400);
 	});
 
@@ -65,6 +66,7 @@ describe("/users", () => {
 			.send(mockedUserWithoutCpf);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual("cpf is a required field");
 		expect(response.status).toBe(400);
 	});
 
@@ -74,33 +76,31 @@ describe("/users", () => {
 			.send(mockedUserWithoutPassword);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual("password is a required field");
 		expect(response.status).toBe(400);
 	});
 
-	test("POST /users - Should not be able to create a user with name not being a string", async () => {
+	test("POST /users - Should not be able to create a user with name containing number", async () => {
 		const response = await request(app)
 			.post("/users")
-			.send(mockedUserNameAsNumber);
+			.send(mockedUserNameWithNumber);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual(
+			"Name must be a string of characters with at least one caracter. Should not contain numbers."
+		);
 		expect(response.status).toBe(400);
 	});
 
-	test("POST /users - Should not be able to create a user with cpf not being a number", async () => {
+	test("POST /users - Should not be able to create a user with cpf containing characters", async () => {
 		const response = await request(app)
 			.post("/users")
-			.send(mockedUserCpfAsString);
+			.send(mockedUserCpfWithChar);
 
 		expect(response.body).toHaveProperty("message");
-		expect(response.status).toBe(400);
-	});
-
-	test("POST /users - Should not be able to create a user with password not being a string", async () => {
-		const response = await request(app)
-			.post("/users")
-			.send(mockedUserPasswordAsNumber);
-
-		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual(
+			'cpf must be a `number` type, but the final value was: `NaN` (cast from the value `"4583368579C"`).'
+		);
 		expect(response.status).toBe(400);
 	});
 
@@ -110,6 +110,9 @@ describe("/users", () => {
 			.send(mockedUserCpfMoreThanElevenDigits);
 
 		expect(firstResponse.body).toHaveProperty("message");
+		expect(firstResponse.body.message).toEqual(
+			"CPF must have exactly 11 digits."
+		);
 		expect(firstResponse.status).toBe(400);
 
 		const secondResponse = await request(app)
@@ -117,6 +120,9 @@ describe("/users", () => {
 			.send(mockedUserCpfLessThanElevenDigits);
 
 		expect(secondResponse.body).toHaveProperty("message");
+		expect(secondResponse.body.message).toEqual(
+			"CPF must have exactly 11 digits."
+		);
 		expect(secondResponse.status).toBe(400);
 	});
 
@@ -126,6 +132,9 @@ describe("/users", () => {
 			.send(mockedUserWrongPasswordRequirements);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual(
+			"Password must have: Minimum eight characters, at least one letter and one number."
+		);
 		expect(response.status).toBe(400);
 	});
 
@@ -146,6 +155,7 @@ describe("/users", () => {
 		const response = await request(app).get("/users");
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual("Invalid token.");
 		expect(response.status).toBe(401);
 	});
 });

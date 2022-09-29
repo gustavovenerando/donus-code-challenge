@@ -3,7 +3,13 @@ import { SchemaOf } from "yup";
 import { IUserRequest } from "../interfaces/users";
 
 export const userSchema: SchemaOf<IUserRequest> = yup.object().shape({
-	name: yup.string().required(),
+	name: yup
+		.string()
+		.required()
+		.matches(
+			/[a-z\s]+$/i,
+			"Name must be a string of characters with at least one caracter. Should not contain numbers."
+		),
 	cpf: yup
 		.number()
 		.required()

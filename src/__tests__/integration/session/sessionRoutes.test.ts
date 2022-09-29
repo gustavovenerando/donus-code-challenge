@@ -43,6 +43,7 @@ describe("/login", () => {
 			.send(mockedUserLoginWrongCpf);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual("Invalid cpf or password");
 		expect(response.status).toBe(403);
 	});
 
@@ -52,6 +53,7 @@ describe("/login", () => {
 			.send(mockedUserLoginWrongPassword);
 
 		expect(response.body).toHaveProperty("message");
+		expect(response.body.message).toEqual("Invalid cpf or password");
 		expect(response.status).toBe(403);
 	});
 });

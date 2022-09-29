@@ -14,7 +14,7 @@ const createUserService = async ({
 	const userAlreadyExists = await userRepository.findOneBy({ cpf });
 
 	if (userAlreadyExists) {
-		throw new AppError(400, "User already exists.");
+		throw new AppError(409, "User already exists.");
 	}
 
 	const hashedPassword = await hash(password, 10);

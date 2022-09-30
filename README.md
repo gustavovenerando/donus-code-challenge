@@ -32,7 +32,7 @@ Visão geral do projeto, um pouco das tecnologias usadas.
 
 Diagrama ER da API definindo as relações entre as tabelas do banco de dados.
 
-<!-- ![DER](DER_SP7_01.drawio.png) -->
+![DER](donus-challenge-Diagram-ER.drawio.png)
 
 ---
 
@@ -297,7 +297,7 @@ Content-type: application/json
 
 ### Usuário após deposit:
 
-Realizando uma requisicão get/users, podemos ver o novo balanço do usuário após o depósito:
+Realizando uma requisicão get/users, podemos ver o novo saldo do usuário após o depósito:
 
 ```json
 [
@@ -370,7 +370,7 @@ Content-type: application/json
 
 ### Usuários após transfer:
 
-Realizando uma requisicão get/users, podemos ver o novo balanço dos usuários após a transferência:
+Realizando uma requisicão get/users, podemos ver os novos saldos dos usuários após a transferência:
 
 ```json
 [

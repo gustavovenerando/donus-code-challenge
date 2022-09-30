@@ -1,5 +1,16 @@
 # donus-code-challenge
 
+# Documentação da API
+
+## Tabela de Conteúdos
+
+-   [Visão Geral](#1-visão-geral)
+-   [Diagrama ER](#2-diagrama-er)
+-   [Início Rápido](#3-início-rápido)
+-   [Endpoints](#4-endpoints)
+
+---
+
 ## 1. Visão Geral
 
 Visão geral do projeto, um pouco das tecnologias usadas.
@@ -80,27 +91,25 @@ yarn test src/__tests__/integration/nome_da_pasta_teste
 -   [Users](#1-users)
     -   [POST - /users](#11-criação-usuário)
     -   [GET - /users](#12-listando-usuários)
+-   [Login](#2-login)
+    -   [POST - /login](#21-login)
+-   [Deposit](#3-deposit)
+    -   [POST - /deposit](#31-transação-de-depósito)
+-   [Transfer](#4-transfer)
+    -   [POST - /transfer/:id](#41-transação-de-transferência)
+-   [Transactions](#5-transactions)
+    -   [POST - /transactions/user](#51-transações-do-usuário)
 
 ## Endpoints Resumo
 
 ### 1. /users
 
-O objeto User é definido como:
-
-| Campo    | Tipo   | Descrição                       |
-| -------- | ------ | ------------------------------- |
-| id       | string | Identificador único do usuário. |
-| name     | string | Nome do usuário.                |
-| cpf      | number | Cpf do usuário.                 |
-| password | string | Senha do usuário.               |
-| balance  | number | Saldo do usuário.               |
-
 ### Endpoints
 
 | Método | Rota   | Descrição                | Autorização |
 | ------ | ------ | ------------------------ | ----------- |
-| GET    | /users | Lista todos os usuários. | X           |
 | POST   | /users | Criação de um usuário.   |             |
+| GET    | /users | Lista todos os usuários. | X           |
 
 ### 1.1. **Criação Usuário**
 
@@ -133,7 +142,7 @@ Content-type: application/json
 {
 	"name": "Alex",
 	"cpf": 42500388878,
-	"id": "6438df00-3839-476f-b2a9-135aa9eb9b84",
+	"id": "50a457b9-3b8e-45c2-bdf1-ee03744c47f1",
 	"balance": 0
 }
 ```
@@ -153,7 +162,7 @@ Content-type: application/json
 
 ---
 
-### 1.2. **Listando Produtos**
+### 1.2. **Listando Usuários**
 
 ### `/users`
 
@@ -180,7 +189,7 @@ Vazio
 ```json
 [
 	{
-		"id": "6438df00-3839-476f-b2a9-135aa9eb9b84",
+		"id": "50a457b9-3b8e-45c2-bdf1-ee03744c47f1",
 		"name": "Alex",
 		"cpf": 42500388878,
 		"balance": 0
@@ -196,17 +205,263 @@ Vazio
 
 ---
 
-# Documentação da API
+### 2. /login
 
-## Tabela de Conteúdos
+### Endpoints
 
--   [Visão Geral](#1-visão-geral)
--   [Diagrama ER](#2-diagrama-er)
--   [Início Rápido](#3-início-rápido)
-    -   [Instalando Dependências](#31-instalando-dependências)
-    -   [Variáveis de Ambiente](#32-variáveis-de-ambiente)
-    -   [Migrations](#33-migrations)
--   [Autenticação](#4-autenticação)
--   [Endpoints](#5-endpoints)
+| Método | Rota   | Descrição         | Autorização |
+| ------ | ------ | ----------------- | ----------- |
+| POST   | /login | Login do usuário. |             |
+
+### 2.1. **Login**
+
+### `/login`
+
+### Exemplo de Request:
+
+```
+POST /login
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+{
+	"cpf": 42500388878,
+	"password": "Aloha123456"
+}
+```
+
+### Exemplo de Resposta:
+
+```
+200 OK
+```
+
+```json
+{
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NjQ0ODgzMjgsImV4cCI6MTY2NDQ5NTUyOCwic3ViIjoiNTA2OWI2NTktNjI4Ny00YzNkLWI4OGItOTA2ZmRiYmJkNjhiIn0.OMEyFMQL2kgZF9n85L2Xg7BBbk3di7Zhjy1Bvd0NQVg"
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro | Descrição               |
+| -------------- | ----------------------- |
+| 403 forbidden  | Invalid cpf or password |
 
 ---
+
+### 3. /deposit
+
+### Endpoints
+
+| Método | Rota     | Descrição                             | Autorização |
+| ------ | -------- | ------------------------------------- | ----------- |
+| POST   | /deposit | Criação de uma transação de depósito. | x           |
+
+### 3.1. **Transação de depósito**
+
+### `/deposit`
+
+A rota deposit cria uma transação de tipo deposit. Essa rota é utillizada para realizar um depósito na conta do usuário logado.
+
+### Exemplo de Request:
+
+```
+POST /deposit
+Authorization: Bearer token
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+{
+	"amount": 1000
+}
+```
+
+### Exemplo de Resposta:
+
+```
+201 Created
+```
+
+```json
+{
+	"message": "Deposit done sucessfully."
+}
+```
+
+### Usuário após deposit:
+
+Realizando uma requisicão get/users, podemos ver o novo balanço do usuário após o depósito:
+
+```json
+[
+	{
+		"id": "50a457b9-3b8e-45c2-bdf1-ee03744c47f1",
+		"name": "Alex",
+		"cpf": 42500388878,
+		"balance": 1000
+	}
+]
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição                                                           |
+| ---------------- | ------------------------------------------------------------------- |
+| 401 unauthorized | Invalid token.                                                      |
+| 400 bad request  | Amount value must be greater than 0 and less than or equal to 2000. |
+| 400 bad request  | amount must be a `number` type, but the final value was: `NaN`      |
+
+---
+
+### 4. /transfer
+
+### Endpoints
+
+| Método | Rota          | Descrição                                  | Autorização |
+| ------ | ------------- | ------------------------------------------ | ----------- |
+| POST   | /transfer/:id | Criação de uma transação de transferência. | x           |
+
+### 4.1. **Transação de transferência**
+
+### `/transfer/:id`
+
+A rota transfer cria uma transação de tipo transfer. Essa rota é utillizada para realizar uma transferência do usuário logado para outro usuário (target user).
+
+### Exemplo de Request:
+
+```
+POST /transfer/:id
+Authorization: Bearer token
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+
+| Parâmetro | Tipo   | Descrição                                                               |
+| --------- | ------ | ----------------------------------------------------------------------- |
+| id        | string | Identificador único do usuário que irá receber o valor da transferência |
+
+### Corpo da Requisição:
+
+```json
+{
+	"amount": 10
+}
+```
+
+### Exemplo de Resposta:
+
+```
+201 Created
+```
+
+```json
+{
+	"message": "Transfer between accounts done sucessfully."
+}
+```
+
+### Usuários após transfer:
+
+Realizando uma requisicão get/users, podemos ver o novo balanço dos usuários após a transferência:
+
+```json
+[
+	{
+		"id": "50a457b9-3b8e-45c2-bdf1-ee03744c47f1",
+		"name": "Alex",
+		"cpf": 42500388878,
+		"balance": 990
+	},
+	{
+		"id": "0cf0dc0d-4b37-4274-8825-b6a6bec55be1",
+		"name": "Beatriz",
+		"cpf": 42500388890,
+		"balance": 10
+	}
+]
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição                                                                                      |
+| ---------------- | ---------------------------------------------------------------------------------------------- |
+| 401 unauthorized | Invalid token.                                                                                 |
+| 400 bad request  | You dont have enough balance to make this transaction. Please, make a deposit to your account. |
+| 400 bad request  | Amount value must be greater than 0.                                                           |
+| 400 bad request  | Target user id does not correspond to UUID format.                                             |
+| 400 bad request  | Target user doesnt exists.                                                                     |
+
+---
+
+### 5. /transactions
+
+### Endpoints
+
+| Método | Rota               | Descrição                                                 | Autorização |
+| ------ | ------------------ | --------------------------------------------------------- | ----------- |
+| GET    | /transactions/user | Lista todas as transações realizadas pelo usuário logado. | x           |
+
+### 5.1. **Transações do usuário**
+
+### `/transactions/user`
+
+### Exemplo de Request:
+
+```
+GET /transactions/user
+Authorization: Bearer token
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+
+```json
+Vazio
+```
+
+### Exemplo de Resposta:
+
+```
+200 OK
+```
+
+```json
+{
+	"id": "50a457b9-3b8e-45c2-bdf1-ee03744c47f1",
+	"name": "Alex",
+	"cpf": 42500388878,
+	"balance": 990,
+	"transactions": [
+		{
+			"id": "440fc20b-b441-4051-9864-c3a2e27e38e2",
+			"amount": 1000,
+			"targetUserId": null,
+			"type": "Deposit"
+		},
+		{
+			"id": "f06db8e3-cf76-45a5-b9fc-a9ff6e2ba5f4",
+			"amount": 10,
+			"targetUserId": "0cf0dc0d-4b37-4274-8825-b6a6bec55be1",
+			"type": "Transfer"
+		}
+	]
+}
+```
+
+### Possíveis Erros:
+
+| Código do Erro   | Descrição      |
+| ---------------- | -------------- |
+| 401 unauthorized | Invalid token. |
+
+---
+
+Autoria: Gustavo Henrique Venerando
